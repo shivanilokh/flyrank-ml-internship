@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identifying Declining Search Performance</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f8fafc;
+      color: #172033;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 70px 20px;
+    }
+
+    .hero {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid #64748b;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 46px;
+      line-height: 1.15;
+      margin: 0 0 20px;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 30px;
+      margin-top: 0;
+      color: #111827;
+    }
+
+    h3 {
+      color: #1f2937;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      color: #dbeafe;
+      max-width: 800px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: white;
+      padding: 35px;
+      margin-bottom: 28px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .abstract {
+      border-left: 5px solid #2563eb;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .stat {
+      background: #f1f5f9;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      color: #2563eb;
+    }
+
+    .stat span {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th, td {
+      padding: 13px;
+      border: 1px solid #dbe1e8;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    .result {
+      font-size: 21px;
+      padding: 20px;
+      background: #eff6ff;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .action {
+      padding: 18px;
+      margin: 15px 0;
+      border-left: 4px solid #10b981;
+      background: #f8fafc;
+    }
+
+    .note {
+      background: #fff7ed;
+      border-left: 4px solid #f59e0b;
+      padding: 18px;
+      margin: 20px 0;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #111827;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    @media (max-width: 800px) {
+      h1 {
+        font-size: 34px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      section {
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="hero">
+    <div class="tag">FlyRank ML Internship · ML-11 · Week 8</div>
+
+    <h1>
+      Identifying Content with Declining Search Performance
+    </h1>
+
+    <p class="subtitle">
+      A machine-learning approach for identifying and prioritizing content
+      that shows measurable signs of declining search performance.
+    </p>
+  </div>
+</header>
+
+<main>
+
+<section class="abstract">
+  <h2>Abstract</h2>
+
+  <p>
+    This study asks whether content showing measurable signs of declining
+    search performance can be identified and ranked for review. We use
+    search-performance data across February and March and define decline
+    using a decrease in impressions of at least 20%. A Random Forest model
+    is trained using a client-level split, with 40 clients used for training
+    and 10 held out for testing. On the same evaluation split, the model
+    achieved Precision@50 of 0.42 compared with 0.06 for the rule-based
+    baseline. The resulting ranked queue is intended to support human
+    review and prioritization rather than automatically deciding which
+    content should be changed.
+  </p>
+</section>
+
+<section>
+  <h2>1. Introduction / Problem Statement</h2>
+
+  <p>
+    Search performance can change over time. Some content may continue to
+    perform steadily while other content shows measurable deterioration.
+    Reviewing every content item manually is difficult when the dataset is
+    large.
+  </p>
+
+  <p>
+    The goal of this work is therefore to test whether machine learning can
+    identify content with measurable signs of declining search performance
+    and rank those items for review.
+  </p>
+
+  <p>
+    The output is designed as a prioritization tool. It does not claim that
+    a model can determine the correct content strategy automatically.
+  </p>
+</section>
+
+<section>
+  <h2>2. Data</h2>
+
+  <p>
+    The analysis uses the FlyRank ML Internship dataset and compares
+    search-performance information across February and March.
+  </p>
+
+  <div class="stats">
+    <div class="stat">
+      <strong>7,355,108</strong>
+      <span>February rows</span>
+    </div>
+
+    <div class="stat">
+      <strong>9,841,378</strong>
+      <span>March rows</span>
+    </div>
+
+    <div class="stat">
+      <strong>303,572</strong>
+      <span>Final modeling rows</span>
+    </div>
+
+    <div class="stat">
+      <strong>38,131</strong>
+      <span>Declining rows</span>
+    </div>
+  </div>
+
+  <p>
+    After preparation and filtering, the final modeling dataset contained
+    303,572 rows. The declining class contained 38,131 rows, representing
+    12.56% of the modeling dataset.
+  </p>
+
+  <h3>Public-safety handling</h3>
+
+  <p>
+    Client names, private queries, private URLs, and other client-specific
+    information are not included in this public paper.
+  </p>
+</section>
+
+<section>
+  <h2>3. Methodology</h2>
+
+  <h3>Label definition</h3>
+
+  <p>
+    Declining content is defined as content where impressions decreased by
+    at least 20% over the comparison period.
+  </p>
+
+  <h3>Features</h3>
+
+  <p>
+    Model inputs are based on available search-performance and content
+    characteristics. Variables that directly reveal the target outcome
+    were excluded to reduce target leakage.
+  </p>
+
+  <h3>Validation design</h3>
+
+  <p>
+    A client-level split was used so that clients in the test set were not
+    also used to train the model. The split contained 40 training clients
+    and 10 held-out test clients.
+  </p>
+
+  <h3>Model</h3>
+
+  <p>
+    The main model was a Random Forest classifier with 300 trees,
+    class balancing, and a fixed random state for reproducibility.
+  </p>
+
+  <h3>Baseline</h3>
+
+  <p>
+    A rule-based baseline was evaluated on the same test split. This makes
+    the model comparison more directly interpretable.
+  </p>
+
+  <h3>Evaluation metric</h3>
+
+  <p>
+    Precision@50 measures how many of the top 50 ranked items are actually
+    members of the declining class. This metric matches the practical use
+    case of creating a small review queue.
+  </p>
+</section>
+
+<section>
+  <h2>4. Results</h2>
+
+  <div class="result">
+    <strong>Random Forest Precision@50: 0.42</strong><br>
+    Rule-based baseline Precision@50: 0.06
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Approach</th>
+        <th>Precision@50</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Random Forest</td>
+        <td>0.42</td>
+      </tr>
+
+      <tr>
+        <td>Rule-based baseline</td>
+        <td>0.06</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    On the same held-out client split, the Random Forest produced a
+    Precision@50 of 0.42, while the rule-based baseline produced 0.06.
+    This result indicates that the model produced a more concentrated
+    top-50 review queue under this evaluation setup.
+  </p>
+
+  <div class="note">
+    <strong>Interpretation:</strong>
+    This is an evaluation result for this dataset, label definition and
+    validation design. It should not be interpreted as proof that the model
+    will perform the same way on every future dataset.
+  </div>
+</section>
+
+<section>
+  <h2>5. Limitations & Honest Framing</h2>
+
+  <ul>
+    <li>The evaluation is based on the available internship dataset and comparison window.</li>
+    <li>Precision@50 measures ranking quality for a small review queue; it does not measure business impact directly.</li>
+    <li>A declining label identifies a measurable change in impressions, not the cause of that change.</li>
+    <li>Model performance can change when search behavior, content mix, or data distributions change.</li>
+    <li>The model should support human investigation rather than automatically changing content.</li>
+    <li>The public paper intentionally excludes private client information and private search queries.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6. Ranked Recommendations</h2>
+
+  <p>
+    The model output can be converted into a review queue using probability
+    thresholds and reason codes.
+  </p>
+
+  <div class="action">
+    <h3>1. Review first</h3>
+    <p>
+      Items with decline probability ≥ 0.80 should receive the earliest
+      human review.
+    </p>
+  </div>
+
+  <div class="action">
+    <h3>2. Prioritize review</h3>
+    <p>
+      Items with decline probability ≥ 0.60 and below 0.80 should be
+      prioritized for investigation after the highest-confidence items.
+    </p>
+  </div>
+
+  <div class="action">
+    <h3>3. Monitor</h3>
+    <p>
+      Items with decline probability ≥ 0.40 and below 0.60 can be monitored
+      for additional evidence before taking action.
+    </p>
+  </div>
+
+  <div class="action">
+    <h3>4. Protect / observe</h3>
+    <p>
+      Lower-probability items should generally remain outside the immediate
+      intervention queue unless other evidence indicates a reason to review.
+    </p>
+  </div>
+
+  <h3>What should NOT be automated</h3>
+
+  <p>
+    The system should not automatically delete, rewrite, redirect, or
+    publish changes to content. Those actions require human review and
+    additional business and content context.
+  </p>
+</section>
+
+<section>
+  <h2>7. Reproducibility</h2>
+
+  <p>
+    The analysis notebook and project files are available in the public
+    repository.
+  </p>
+
+  <p>
+    <strong>Repository:</strong><br>
+    <a href="https://github.com/shivanilokh/flyrank-ml-internship" target="_blank">
+      github.com/shivanilokh/flyrank-ml-internship
+    </a>
+  </p>
+
+  <p>
+    <strong>Capstone notebook:</strong><br>
+    <a href="https://github.com/shivanilokh/flyrank-ml-internship/blob/main/work/notebooks/capstone.ipynb" target="_blank">
+      work/notebooks/capstone.ipynb
+    </a>
+  </p>
+
+  <p>
+    The notebook contains the analysis workflow used to generate the
+    reported results and ranked review artifacts.
+  </p>
+</section>
+
+<section>
+  <h2>8. Acknowledgments & Data Credit</h2>
+
+  <p>
+    Built on the
+    <a href="https://flyrank.ai" target="_blank">FlyRank ML Internship dataset</a>.
+  </p>
+
+  <p>
+    This paper was prepared as part of the FlyRank Machine Learning
+    Internship, Week 8 — ML-11: Ship the Paper.
+  </p>
+</section>
+
+<section>
+  <h2>9. Artifacts</h2>
+
+  <p>
+    The project repository contains the supporting notebooks and outputs
+    used during the analysis.
+  </p>
+
+  <p>
+    The public paper is intended to provide a concise, inspectable summary
+    of the capstone methodology, results, limitations and recommended
+    human-review workflow.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>FlyRank ML Internship · ML-11 · Machine Learning</p>
+  <p>Built on the FlyRank ML Internship dataset</p>
+</footer>
+
+</body>
+</html>
