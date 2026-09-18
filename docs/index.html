@@ -131,6 +131,61 @@
       margin: 20px 0;
     }
 
+        .chart-box {
+      margin: 30px 0;
+      padding: 25px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #111827;
+    }
+
+    .bar-row {
+      margin: 22px 0;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 32px;
+      background: #e5e7eb;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #2563eb;
+      border-radius: 6px;
+    }
+
+    .bar-fill.rf {
+      width: 42%;
+    }
+
+    .bar-fill.baseline {
+      width: 6%;
+    }
+
+    .chart-caption {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
     .action {
       padding: 18px;
       margin: 15px 0;
@@ -345,6 +400,36 @@
     <strong>Random Forest Precision@50: 0.42</strong><br>
     Rule-based baseline Precision@50: 0.06
   </div>
+
+  <div class="chart-box">
+    <div class="chart-title">
+      Precision@50 Comparison
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">
+        <span>Random Forest</span>
+        <span>0.42</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill rf"></div>
+      </div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">
+        <span>Rule-based baseline</span>
+        <span>0.06</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill baseline"></div>
+      </div>
+    </div>
+
+    <div class="chart-caption">
+      Precision@50 on the same held-out client-level test split.
+    </div>
+  </div>  
 
   <table>
     <thead>
