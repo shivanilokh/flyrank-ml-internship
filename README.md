@@ -143,5 +143,96 @@ build on — and the `skills/` folder here is the instruction library for your A
    (never a colab.research.google.com or drive.google.com link).
 
 ---
+---
+
+# FL-09 — Documentation & Demo
+
+## Project Overview
+
+This project analyzes search-performance signals to identify content that may require attention and prioritization.
+
+The goal is to turn search-performance data into a practical, explainable workflow that helps identify pages that may be declining and should be reviewed first.
+
+## Who This Is For
+
+This project is designed for data analysts, SEO teams, content teams, and other stakeholders who need a data-driven way to identify content that may require investigation or action.
+
+## How It Works
+
+The workflow follows these main steps:
+
+1. Define the problem and target.
+2. Prepare and validate the data.
+3. Build a transparent rule-based baseline.
+4. Train a machine-learning model.
+5. Evaluate the model against the baseline.
+6. Rank content for review.
+7. Turn the results into an actionable recommendation.
+
+## Architecture
+
+```text
+Search Performance Data
+        ↓
+Data Preparation & Validation
+        ↓
+Feature Engineering
+        ↓
+Baseline Rule
+        ↓
+Machine Learning Model
+        ↓
+Evaluation
+        ↓
+Ranked Content Queue
+        ↓
+Action Recommendations
+
+
+## Usage
+
+The project can be reproduced using the notebooks and files provided in this repository.
+
+The main assignment notebooks are available in:
+
+`work/notebooks/`
+
+The validation workflow is:
+
+`work/notebooks/w06_validation_audit.ipynb`
+
+The action playbook is:
+
+`work/notebooks/w07_action_playbook.ipynb`
+
+The capstone notebook is:
+
+`work/notebooks/capstone.ipynb`
+
+## Evaluation
+
+The project compares a machine-learning approach with a transparent rule-based baseline.
+
+The validation and capstone notebooks contain the evaluation results and comparison used to assess the final approach.
+
+## Limitations
+
+This project uses anonymized search-performance data and should be treated as decision-support rather than a direct prediction of Google's search algorithm.
+
+The results are directional and depend on the available data, selected features, evaluation setup, and environment.
+
+The model should support human review rather than replace it.
+
+## AI Transparency
+
+AI tools were used as development and learning assistants during the project.
+
+I reviewed the generated suggestions, implemented the work in the repository, and checked the outputs and evaluation results myself.
+
+## Demo
+
+A 3–5 minute live demo video will show the project running end-to-end, explain one design decision, and discuss one limitation.
+
+**Demo video:** [Add video link after recording]
 
 *Track leads: Mirza Ašćerić (ML) · Hole (data engineering). Code under MIT (see `LICENSE`); data under `DATA_USE.md`.*
